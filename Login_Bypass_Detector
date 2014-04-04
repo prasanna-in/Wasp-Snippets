@@ -1,0 +1,28 @@
+#Author : Prasanna Kanagasabai 
+# The purpose of this script is to dtect id any of the resource in the application is available outside of login. This is to be used inside ironWASP
+
+def processResponse(Loginurlreq):
+    print "Start"
+    Loginurl = Request.FromProxyLog(Loginurlreq).FullUrl
+    requests = Request.FromProxyLog()
+    for request in requests:
+        url = request.FullUrl 
+        req = Request(url)
+        resp = req.Send()
+        #print req.FullUrl,resp.Code
+        if resp.Code == 302:
+            headers = resp.Headers
+            redirecturl = headers.Get("Location")
+            if redirecturl != Loginurl:
+                print req.FullUrl,req.GetId(),"\n" # Please check Scan Log for ID
+        if resp.Code == 200:
+            print "200"
+            print req.FullUrl
+            
+                
+           
+           
+Loginurlreq = 1 # Enter Request Number of Login Reques
+processResponse(Loginurlreq)
+ 
+ 
